@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JotoApp License</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f4f4;
+      color: #222;
+      padding: 2rem;
+      max-width: 800px;
+      margin: auto;
+    }
+    h1 {
+      color: #0066cc;
+      font-size: 2.5rem;
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+    }
+    input, button {
+      padding: 0.5rem;
+      font-size: 1rem;
+      margin-top: 0.3rem;
+      width: 100%;
+      max-width: 400px;
+    }
+    #license {
+      background: #e0e0e0;
+      padding: 1rem;
+      border-radius: 8px;
+      white-space: pre-wrap;
+      margin-top: 1.5rem;
+    }
+    .footer {
+      margin-top: 3rem;
+      font-size: 0.9rem;
+      color: #666;
+      text-align: center;
+    }
+    .btns {
+      margin-top: 1rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+  <h1>JotoApp License Generator</h1>
+
+  <form id="licenseForm">
+    <label for="year">Year:</label>
+    <input type="number" id="year" name="year" value="" />
+
+    <label for="holder">Copyright Holder:</label>
+    <input type="text" id="holder" name="holder" value="John Doe" />
+
+    <div class="btns">
+      <button type="submit">Generate License</button>
+      <button type="button" onclick="copyLicense()">📋 Copy License</button>
+    </div>
+  </form>
+
+  <pre id="license">
+<!-- License will be generated here -->
+  </pre>
+
+  <div class="footer">
+    Made by Jai😀 | Part of the Joto Series
+  </div>
+
+<script>
+  // Set default year
+  const currentYear = new Date().getFullYear();
+  const currentDecadeStart = Math.floor(currentYear / 10) * 10;
+  const currentDecadeEnd = currentDecadeStart + 9;
+
+  document.getElementById("year").value = currentYear;
+
+  const form = document.getElementById("licenseForm");
+  const licenseBox = document.getElementById("license");
+
+  form.addEventListener("submit", function(e) {
+    e.preventDefault();
+    const yearInput = document.getElementById("year").value.trim();
+    const holder = document.getElementById("holder").value.trim() || "John Doe";
+
+    const year = parseInt(yearInput);
+
+    if (isNaN(year) || year < currentDecadeStart || year > currentDecadeEnd) {
+      alert(`Please enter a year between ${currentDecadeStart} and ${currentDecadeEnd}.`);
+      return;
+    }
+
+    const licenseText = `JotoApp License v1.0
+
+Copyright (c) ${year} ${holder}
+
+You are NOT allowed to copy, redistribute, modify, or reuse any part of this software's code, design, or content without direct written permission from the author.
+
+This software is provided "as-is", without any warranty or guarantee. Use at your own risk.
+If permission is granted by the author, your version of the software MUST include this license in its entirety.
+For permissions, contact the author directly.
+
+If this software is a game you can make fangames but you aren't allowed to use the OST of the software
+If this software is a paid software you aren't allowed to make a free version`;
+
+    licenseBox.textContent = licenseText;
+  });
+
+  function copyLicense() {
+    const text = licenseBox.textContent;
+    if (!text.trim()) {
+      alert("Nothing to copy yet! Generate a license first.");
+      return;
+    }
+    navigator.clipboard.writeText(text).then(() => {
+      alert("License copied to clipboard!");
+    }).catch(err => {
+      alert("Failed to copy license.");
+    });
+  }
+</script>
